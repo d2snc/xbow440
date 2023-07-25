@@ -1,14 +1,18 @@
+
+# Para executar o programa e receber da IMU só rodar o comando
+#./xbow440_example /dev/ttyUSB0 38400
+
 cmake_minimum_required(VERSION 2.8.3)
 project(xbow440)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  sensor_msgs
-  serial
-)
+#find_package(catkin REQUIRED COMPONENTS
+#  roscpp
+#  sensor_msgs
+#  serial
+#)
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS thread system)
@@ -99,12 +103,12 @@ find_package(Boost REQUIRED COMPONENTS thread system)
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
- INCLUDE_DIRS include
- LIBRARIES xbow440
- CATKIN_DEPENDS roscpp sensor_msgs serial
+#catkin_package(
+# INCLUDE_DIRS include
+# LIBRARIES xbow440
+# CATKIN_DEPENDS roscpp sensor_msgs serial
  # DEPENDS system_lib
-)
+#)
 
 ###########
 ## Build ##
@@ -115,13 +119,26 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-  ${catkin_INCLUDE_DIRS}
+  #${catkin_INCLUDE_DIRS}
   ${PROJECT_SOURCE_DIR}/include
+  /tmp/usr/local/include
 )
+
+link_directories(
+  /tmp/usr/local/lib
+
+  )
 
 ## Declare a C++ library
 add_library(xbow440
   src/xbow440.cpp
+)
+
+target_link_libraries(
+  xbow440
+  ${Boost_SYSTEM_LIBRARY}
+  ${Boost_THREAD_LIBRARY}
+  serial
 )
 
 ## Add cmake target dependencies of the library
@@ -130,18 +147,15 @@ add_library(xbow440
 # add_dependencies(xbow440 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(xbow440_node src/xbow440_node.cc)
+add_executable(xbow440_example examples/xbow440_example.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(xbow440_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(xbow440_node
+target_link_libraries(xbow440_example
   xbow440
-  ${catkin_LIBRARIES}
-  ${Boost_SYSTEM_LIBRARY}
-  ${Boost_THREAD_LIBRARY}
 )
 
 #############

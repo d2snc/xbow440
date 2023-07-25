@@ -49,12 +49,12 @@ bool XBOW440::Connect(std::string port, int baudrate, long timeout) {
 
 
 	// look for Xbow by sending ping and waiting for response
-	if (!Ping()){
+	/*if (!Ping()){
 		std::cout << "Xbow440 not found on port: " << port << std::endl;
 		delete serial_port_;
 		serial_port_ = NULL;
 		return false;
-	}
+	}*/
 
 	// start reading
 	StartReading();
